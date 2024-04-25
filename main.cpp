@@ -42,6 +42,14 @@ void timer(int){
 }
 
 int main(int argc, char** argv){
+    /////////////////////////////////////////////////////////////
+    auto coords = DDA(2,3,0,8,7,5);
+    std::cout << "Testing DDA algorithm:\n";
+    for (int i = 0; i < coords.first.size(); ++i) {
+        std::cout << "(" << coords.first[i] << ", " << coords.second[i] << ")\n";
+    }
+    /////////////////////////////////////////////////////////////
+
     glutInit(&argc, argv);                       
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
     glutInitWindowSize(400, 400);             
@@ -77,6 +85,7 @@ int main(int argc, char** argv){
     glutReshapeFunc(reshape);
     glutTimerFunc(0, timer, 0);
     glutMainLoop();                         
+
 
     return 0;
 }

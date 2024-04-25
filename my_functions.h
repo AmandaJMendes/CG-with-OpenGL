@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <math.h>
+#include <vector>
 
 void translate(float x, float y, float z){
     GLfloat matrix[16] = {1, 0, 0, 0,
@@ -73,4 +74,19 @@ void perspective(float left, float right, float bottom, float top, float near, f
                         0.0f,     0.0f,     scale_z,   0.0f};
 
     glMultMatrixf(matrix);   
+}
+
+std::pair<std::vector<float>, std::vector<float>> DDA(float x1, float y1, float z1, float x2, float y2, float z2){
+    float length = abs(x1-x2)>=abs(y1-y2) ? abs(x1-x2) : abs(y1-y2);
+    float delta_x = (x2-x1)/length;
+    float delta_y = (y2-y1)/length;
+    std::vector<float> xs(length+1);
+    std::vector<float> ys(length+1);
+    for (int i=0; i<=length; i++){
+        xs[i] = std::round(x1);
+        ys[i] = std::round(y1);
+        x1 += delta_x;
+        y1 += delta_y;
+    }
+    return {xs, ys};
 }
