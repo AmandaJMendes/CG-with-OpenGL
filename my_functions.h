@@ -76,17 +76,39 @@ void perspective(float left, float right, float bottom, float top, float near, f
     glMultMatrixf(matrix);   
 }
 
-std::pair<std::vector<float>, std::vector<float>> DDA(float x1, float y1, float z1, float x2, float y2, float z2){
-    float length = abs(x1-x2)>=abs(y1-y2) ? abs(x1-x2) : abs(y1-y2);
-    float delta_x = (x2-x1)/length;
-    float delta_y = (y2-y1)/length;
-    std::vector<float> xs(length+1);
-    std::vector<float> ys(length+1);
+std::pair<std::vector<int>, std::vector<int>> DDA(int x1, int y1, int z1, int x2, int y2, int z2){
+    int length = abs(x1-x2)>=abs(y1-y2) ? abs(x1-x2) : abs(y1-y2);
+    float delta_x = static_cast<float>(x2-x1)/length;
+    float delta_y = static_cast<float>(y2-y1)/length;
+    float x = static_cast<float>(x1);
+    float y = static_cast<float>(y1);
+    std::vector<int> xs(length+1);
+    std::vector<int> ys(length+1);
     for (int i=0; i<=length; i++){
-        xs[i] = std::round(x1);
-        ys[i] = std::round(y1);
-        x1 += delta_x;
-        y1 += delta_y;
+        xs[i] = std::round(x);
+        ys[i] = std::round(y);
+        x += delta_x;
+        y += delta_y;
+    }
+    return {xs, ys};
+}
+
+std::pair<std::vector<int>, std::vector<int>> bresenham(int x1, int y1, int z1, int x2, int y2, int z2){
+    int delta_x = x2-x1;
+    int delta_y = y2-y1;
+    float m = static_cast<float>(delta_y)/delta_x;
+    float e = m-0.5;
+    std::vector<int> xs(delta_x+1);
+    std::vector<int> ys(delta_x+1);
+    for (int i=0; i<=delta_x; i++){
+        xs[i] = x1;
+        ys[i] = y1;
+        while(e>0){
+            y1 += 1;
+            e  -= 1;
+        }
+        x1 += 1;
+        e  += m;
     }
     return {xs, ys};
 }

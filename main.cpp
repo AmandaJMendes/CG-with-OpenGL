@@ -43,10 +43,15 @@ void timer(int){
 
 int main(int argc, char** argv){
     /////////////////////////////////////////////////////////////
-    auto coords = DDA(2,3,0,8,7,5);
+    auto coords_dda = DDA(3,2,0,15,5,5);
+    auto coords_b   = bresenham(3,2,0,15,5,5);
     std::cout << "Testing DDA algorithm:\n";
-    for (int i = 0; i < coords.first.size(); ++i) {
-        std::cout << "(" << coords.first[i] << ", " << coords.second[i] << ")\n";
+    for (int i = 0; i < coords_dda.first.size(); ++i) {
+        std::cout << "(" << coords_dda.first[i] << ", " << coords_dda.second[i] << ")\n";
+    }
+    std::cout << "Testing Bresenham algorithm:\n";
+    for (int i = 0; i < coords_b.first.size(); ++i) {
+        std::cout << "(" << coords_b.first[i] << ", " << coords_b.second[i] << ")\n";
     }
     /////////////////////////////////////////////////////////////
 
