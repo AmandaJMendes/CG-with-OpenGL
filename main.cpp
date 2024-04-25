@@ -3,57 +3,23 @@
 #include <math.h>
 #include "my_primitives.h"
 #include "my_functions.h"
+#include "drawings.h"
 
-float anim_angle = 0.0;
-
-void draw_island(){
-    glTranslatef(0, -2, -6);
-    glRotatef(20, 1, 0, 0);
-    glRotatef(anim_angle, 0, 1 , 0);
-    glColor3f(0.0, 0.0, 1.0);
-
-    glPushMatrix();
-    glTranslatef(0, -10, 0);
-    cuboid(20, 20, 20);
-    glPopMatrix();
-
-    glRotatef(90, 1, 0, 0);
-    glColor3f(0.71, 0.40, 0.165);
-    cylinder(4, 0.2);
-    glTranslatef(0, 0, -1.1);
-    glColor3f(0.647, 0.165, 0.165);
-    cylinder(0.2, 4);
-
-    glTranslatef(0, 0, -2);
-    glColor3f(0, 0.5, 0);
-    elipse(2, 0.1, M_PI);
-    for (float angle = 60; angle <= 360; angle+=60){
-        elipse(2, 0.5, M_PI);
-        glRotatef(30, 0, 0, 1);
-    }
-    elipse(2, 0.1, M_PI);
-
-    glTranslatef(0, 0, -0.05);
-    elipse(2, 0.1, M_PI);
-    for (float angle = 60; angle <= 360; angle+=60){
-        elipse(2, 0.5, M_PI);
-        glRotatef(30, 0, 0, 1);
-    }
-    elipse(2, 0.1, M_PI);
-}
 float x=2.0f;
 void display() {
     glClear(GL_COLOR_BUFFER_BIT); // | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
+    translate(x,-1,-4);
     
-    translate(x, x, -4);
+    //translate(x, x, -4);
     //rotatey(M_PI/6);
     //scale(12, 12, 1);
 
     //elipse(0.5, 0.5, 2*M_PI);
     cylinder(1, 2);
     //glutSolidCube(0.5);
-    
+    //island();
+
     glutSwapBuffers();
 }
 
@@ -62,7 +28,7 @@ void reshape(int w, int h){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //orthogonal(-2, 2, -2, 2, -1, 1);
-    perspective(-2, 2, -2, 2, 1, 10);
+    perspective(-2, 2, -2, 2, 0.5, 10);
     //glOrtho( -2, 2, -2, 2, -1, 1);
     //glFrustum(-4, 4, -4, 4, 1, 10);
     glMatrixMode(GL_MODELVIEW);
@@ -73,7 +39,6 @@ void timer(int){
     glutPostRedisplay();
     glutTimerFunc(1000/30, timer, 0);
     x-=0.01;
-    anim_angle += 0.5;
 }
 
 int main(int argc, char** argv){
