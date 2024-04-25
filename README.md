@@ -14,7 +14,7 @@ O código deve conter (vide pesos):
     - [x] Implementação DDA;
     - [ ] Implementação Bresenham;
     - [ ] Aplicação dos algoritmos;
-- [ ] 10%) Aplicação de um dos algoritmos de visibilidade estudados (podem utilizar as rotinas disponíveis na OpenGL).
+- [ ] (10%) Aplicação de um dos algoritmos de visibilidade estudados (podem utilizar as rotinas disponíveis na OpenGL).
 
 ## Issues:
 - Atualmente, o algoritmo de Bresenham só funciona para delta y positivo e menor que delta x, é necessário modificar isso;
