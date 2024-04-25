@@ -8,6 +8,6 @@ O código deve conter (vide pesos):
 - [ ] (25%) Modelagem das geometrias (ambiente a ser reproduzido);
 - [x] (20%) Funções para translação, rotação e escala implementadas com as matrizes necessárias para serem aplicadas no ambiente utilizando-se da glMultMatrix();
 - [x] (15%) Funções para as projeções perspectiva e ortogonal implementadas com as matrizes necessárias para serem aplicadas no ambiente utilizando-se da glMultMatrix();
-- [ ] (15%) Aplicação do modelo de iluminação (Phong) e de tonalização (Gouraud) estudados (podem utilizar as rotinas disponíveis na OpenGL);
+- [x] (15%) Aplicação do modelo de iluminação (Phong) e de tonalização (Gouraud) estudados (podem utilizar as rotinas disponíveis na OpenGL);
 - [ ] (15%) Implementar e aplicar em alguma parte do ambiente ao menos um dos algoritmos de rasterização (Digital Differential Analyzer - DDA ou Bresenham);
 - [ ] 10%) Aplicação de um dos algoritmos de visibilidade estudados (podem utilizar as rotinas disponíveis na OpenGL).

@@ -7,17 +7,17 @@
 
 float x=2.0f;
 void display() {
-    glClear(GL_COLOR_BUFFER_BIT); // | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    translate(x,-1,-4);
+    translate(2,-2,-3);
     
     //translate(x, x, -4);
-    //rotatey(M_PI/6);
+    rotatey(M_PI/9);
     //scale(12, 12, 1);
 
     //elipse(0.5, 0.5, 2*M_PI);
-    cylinder(1, 2);
-    //glutSolidCube(0.5);
+    //cylinder(1, 2);
+    glutSolidCube(2);
     //island();
 
     glutSwapBuffers();
@@ -43,14 +43,36 @@ void timer(int){
 
 int main(int argc, char** argv){
     glutInit(&argc, argv);                       
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // | GLUT_DEPTH); 
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
     glutInitWindowSize(400, 400);             
     glutInitWindowPosition(100, 100);       
     glutCreateWindow("OpenGL Test");        
     
     glClearColor(0.68, 0.85, 0.90, 1.0);
-    //glEnable(GL_DEPTH_TEST);
-    
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);  // Enable the first light source
+
+    // Set light properties
+    GLfloat light_position[] = { 1.0f, 1.0f, 1.0f, 0.0f }; // Directional light from above
+    GLfloat light_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };  // No ambient light
+    GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };  // White diffuse light
+    GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // White specular light
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+
+    // Set material properties for the cylinder
+    GLfloat mat_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; // No ambient material
+    GLfloat mat_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // White diffuse material
+    GLfloat mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // White specular material
+    GLfloat mat_shininess[] = { 100.0f }; // Shininess value
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
     glutDisplayFunc(display);               
     glutReshapeFunc(reshape);
     glutTimerFunc(0, timer, 0);
