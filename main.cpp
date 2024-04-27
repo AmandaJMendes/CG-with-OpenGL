@@ -5,6 +5,8 @@
 #include "my_functions.h"
 #include "drawings.h"
 
+using namespace std;
+
 float x=2.0f;
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -45,13 +47,13 @@ int main(int argc, char** argv){
     /////////////////////////////////////////////////////////////
     auto coords_dda = DDA(3,2,0,15,5,5);
     auto coords_b   = bresenham(3,2,0,15,5,5);
-    std::cout << "Testing DDA algorithm:\n";
+    cout << "Testing DDA algorithm:\n";
     for (int i = 0; i < coords_dda.first.size(); ++i) {
-        std::cout << "(" << coords_dda.first[i] << ", " << coords_dda.second[i] << ")\n";
+        cout << "(" << coords_dda.first[i] << ", " << coords_dda.second[i] << ")\n";
     }
-    std::cout << "Testing Bresenham algorithm:\n";
+    cout << "Testing Bresenham algorithm:\n";
     for (int i = 0; i < coords_b.first.size(); ++i) {
-        std::cout << "(" << coords_b.first[i] << ", " << coords_b.second[i] << ")\n";
+        cout << "(" << coords_b.first[i] << ", " << coords_b.second[i] << ")\n";
     }
     /////////////////////////////////////////////////////////////
 

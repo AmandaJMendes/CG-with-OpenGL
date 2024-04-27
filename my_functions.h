@@ -3,6 +3,8 @@
 #include <math.h>
 #include <vector>
 
+using namespace std;
+
 void translate(float x, float y, float z){
     GLfloat matrix[16] = {1, 0, 0, 0,
                           0, 1, 0, 0,
@@ -76,30 +78,30 @@ void perspective(float left, float right, float bottom, float top, float near, f
     glMultMatrixf(matrix);   
 }
 
-std::pair<std::vector<int>, std::vector<int>> DDA(int x1, int y1, int z1, int x2, int y2, int z2){
+pair<vector<int>, vector<int>> DDA(int x1, int y1, int z1, int x2, int y2, int z2){
     int length = abs(x1-x2)>=abs(y1-y2) ? abs(x1-x2) : abs(y1-y2);
     float delta_x = static_cast<float>(x2-x1)/length;
     float delta_y = static_cast<float>(y2-y1)/length;
     float x = static_cast<float>(x1);
     float y = static_cast<float>(y1);
-    std::vector<int> xs(length+1);
-    std::vector<int> ys(length+1);
+    vector<int> xs(length+1);
+    vector<int> ys(length+1);
     for (int i=0; i<=length; i++){
-        xs[i] = std::round(x);
-        ys[i] = std::round(y);
+        xs[i] = round(x);
+        ys[i] = round(y);
         x += delta_x;
         y += delta_y;
     }
     return {xs, ys};
 }
 
-std::pair<std::vector<int>, std::vector<int>> bresenham(int x1, int y1, int z1, int x2, int y2, int z2){
+pair<vector<int>, vector<int>> bresenham(int x1, int y1, int z1, int x2, int y2, int z2){
     int delta_x = x2-x1;
     int delta_y = y2-y1;
     float m = static_cast<float>(delta_y)/delta_x;
     float e = m-0.5;
-    std::vector<int> xs(delta_x+1);
-    std::vector<int> ys(delta_x+1);
+    vector<int> xs(delta_x+1);
+    vector<int> ys(delta_x+1);
     for (int i=0; i<=delta_x; i++){
         xs[i] = x1;
         ys[i] = y1;
