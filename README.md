@@ -1,5 +1,18 @@
 # CG-with-OpenGL
 
+## Como rodar
+### Para rodar em ambientes com distribuição Mac
+Rodar `sudo apt-get install freeglut3-dev`
+
+### Para rodar em ambientes com distribuição Mac
+Rodar `brew install mesa-glu && brew install freeglut`<br>
+Instalar [XQuartz](https://www.xquartz.org/), necessário para interação gráfica.<br>
+
+### Após configurar o ambiente
+Com o ambiente configurado, bastar rodar `make compile`.<br>
+Um binário com nome `exe.out` será gerado na raiz do projeto.<br>
+Então, basta executá-lo: `./exe.out`<br>
+
 ## To do list:
 Proposta da parte avaliativa de CG:
 
