@@ -6,6 +6,7 @@
 using namespace std;
 
 void translate(float x, float y, float z){
+    // Apply translation matrix
     GLfloat matrix[16] = {1, 0, 0, 0,
                           0, 1, 0, 0,
                           0, 0, 1, 0,
@@ -14,6 +15,9 @@ void translate(float x, float y, float z){
 }
 
 void rotatex(float theta){
+    // Apply matrix for rotation around the x-axis
+    // theta: angle (in degrees) to rotate
+    theta *= M_PI/180.0;
     GLfloat matrix[16] = {1, 0, 0, 0,
                           0, 1, 0, 0,
                           0, 0, cosf(theta), sinf(theta),
@@ -22,6 +26,9 @@ void rotatex(float theta){
 }
 
 void rotatey(float theta){
+    // Apply matrix for rotation around the x-axis
+    // theta: angle (in degrees) to rotate
+    theta *= M_PI/180.0;
     GLfloat matrix[16] = {cosf(theta), 0, -sinf(theta), 0,
                           0,           1, 0,            0,
                           sinf(theta), 0, cosf(theta),  0,
@@ -30,6 +37,9 @@ void rotatey(float theta){
 }
 
 void rotatez(float theta){
+    // Apply matrix for rotation around the x-axis
+    // theta: angle (in degrees) to rotate
+    theta *= M_PI/180.0;
     GLfloat matrix[16] = {cosf(theta),  sinf(theta), 0, 0,
                           -sinf(theta), cosf(theta), 0, 0,
                           0,            0,           1, 0,
@@ -38,6 +48,7 @@ void rotatez(float theta){
 }
 
 void scale(float x, float y, float z){
+    // Apply scaling matrix
     GLfloat matrix[16] = {x, 0, 0, 0,
                           0, y, 0, 0,
                           0, 0, z, 0,
@@ -46,6 +57,13 @@ void scale(float x, float y, float z){
 }
 
 void orthogonal(float left, float right, float bottom, float top, float near, float far){
+    /* 
+    Apply matrix for orthogonal projection
+
+    - The viewport's default range is -1 to 1 on every axis.
+    - We need to rescale the coordinates so that the limits of the projection fit within this range,
+    - The camera is at the origin, facing the negative z-axis.
+    */ 
     float scale_x  =  2.0f/(right - left);
     float scale_y  =  2.0f/(top - bottom);
     float scale_z  = -2.0f/(far - near);
@@ -62,7 +80,14 @@ void orthogonal(float left, float right, float bottom, float top, float near, fl
 }
 
 void perspective(float left, float right, float bottom, float top, float near, float far){
-    //https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/building-basic-perspective-projection-matrix.html
+    /* 
+    Apply matrix for perspective projection
+
+    - The viewport's default range is -1 to 1 on every axis.
+    - We need to rescale the coordinates so that the limits of the projection fit within this range.
+    - The camera is at the origin, facing the negative z-axis.
+    - Matrix exaplanation: https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/building-basic-perspective-projection-matrix.html
+    */ 
     float scale_x  =  2.0f*near/(right - left);
     float scale_y  =  2.0f*near/(top - bottom);
     float scale_z  = -2.0f*far*near/(far - near);
@@ -79,6 +104,15 @@ void perspective(float left, float right, float bottom, float top, float near, f
 }
 
 pair<vector<int>, vector<int>> DDA(int x1, int y1, int z1, int x2, int y2, int z2){
+    /*
+    DDA rasterization algorithm 
+
+    - This was based on Bicho's example
+    - The z-axis is not considered
+    - Does it make sense to limit the coordinates to integers (as in Bicho's example)?
+      OpenGL still needs to map those points to pixels and connect them with lines,
+      likely using its own rasterization algorithm.
+    */
     int length = abs(x1-x2)>=abs(y1-y2) ? abs(x1-x2) : abs(y1-y2);
     float delta_x = static_cast<float>(x2-x1)/length;
     float delta_y = static_cast<float>(y2-y1)/length;
@@ -96,6 +130,13 @@ pair<vector<int>, vector<int>> DDA(int x1, int y1, int z1, int x2, int y2, int z
 }
 
 pair<vector<int>, vector<int>> bresenham(int x1, int y1, int z1, int x2, int y2, int z2){
+    /*
+    Bresenhan rasterization algorithm 
+
+    - This was based on Bicho's example
+    - The same considerations in the DDA function apply here
+    - This only works when 0 <= delta_y <= delta_x - OTHER CASES STILL NEED TO BE IMPLEMENTED
+    */
     int delta_x = x2-x1;
     int delta_y = y2-y1;
     float m = static_cast<float>(delta_y)/delta_x;

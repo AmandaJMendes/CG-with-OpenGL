@@ -2,6 +2,12 @@
 #include <iostream>
 #include <math.h>
 
+/*
+The following functions were developed for experimentation with OpenGL
+They may be useful for our final design, but they require some revision
+    - We must use our own functions for translation and rotation
+*/
+
 void elipse(float radius_x, float radius_y, float angle){
     glBegin(GL_TRIANGLE_FAN);
     glVertex3f(0.0, 0.0, 0.0);
@@ -56,6 +62,4 @@ void cuboid(float length, float height, float width){
     glTranslatef(0, 0, -length);
     rectangle(width, height);
     glPopMatrix();
-    
-
 }
