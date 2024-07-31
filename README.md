@@ -30,8 +30,8 @@ O código deve conter (vide pesos):
 - [x] (10%) Aplicação de um dos algoritmos de visibilidade estudados (podem utilizar as rotinas disponíveis na OpenGL).
 
 ## Issues:
-- Atualmente, o algoritmo de Bresenham só funciona para delta y positivo e menor que delta x, é necessário modificar isso;
+- Atualmente, o algoritmo de Bresenham só funciona para delta y positivo e menor que delta x, é necessário modificar isso; SÓ PRECISA O DDA
 - Como lidar com o eixo z nos algoritmos de rasterização?
-- De que forma temos que aplicar esss algoritmos de rasterização?
-- Talvez tenhamos que definir as normais das faces dos desenhos pra que o modelo de Gouraud seja aplicado corretamente, temos que pesquisar melhor sobre isso. 
-- Atualmente, o algoritmo de visibilidade usado é o z-buffer, mas existem outras possibilidades.
+- De que forma temos que aplicar esss algoritmos de rasterização? NUMA PARTE DO NOSSO DESENHO
+- Talvez tenhamos que definir as normais das faces dos desenhos pra que o modelo de Gouraud seja aplicado corretamente, temos que pesquisar melhor sobre isso. AS PRE DEFINIDAS JÁ TEM AS NORMAIS, SE DESENHAR A PARTIR DOS VÉRTICES TEM QUE DEFNIR. 
+- Atualmente, o algoritmo de visibilidade usado é o z-buffer, mas existem outras possibilidades. TUDO BEM
