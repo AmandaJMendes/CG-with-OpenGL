@@ -13,6 +13,12 @@ Com o ambiente configurado, bastar rodar `make compile`.<br>
 Um binário com nome `exe.out` será gerado na raiz do projeto.<br>
 Então, basta executá-lo: `./exe.out`<br>
 
+### Para rodar no Windows
+Métodos retirados de [Open GL (freeGLUT) install in Windows With Visual Studio Code](https://github.com/zamansheikh/OpenGLWithVsCodeWin-Linux)
+Após seguir o processo de instalação e configuração acima basta rodar:
+`g++ main.cpp -o main -lopengl32 -lfreeglut -lglu32 -lglew32 -lglfw3 -lgdi32 -lmingw32` para compilar o programa<br>
+`./main.exe` para abrir o programa<br>
+
 ## To do list:
 Proposta da parte avaliativa de CG:
 
