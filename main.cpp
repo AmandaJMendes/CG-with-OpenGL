@@ -4,6 +4,7 @@
 #include "my_primitives.h"
 #include "my_functions.h"
 #include "drawings.h"
+#include "drawingC3.h"
 
 using namespace std;
 
@@ -20,7 +21,8 @@ void display() {
 
     //elipse(0.5, 0.5, 2*M_PI);
     //cylinder(1, 2);
-    glutSolidCube(2);
+    //glutSolidCube(2);
+    drawC3();
     //island();
 
     glutSwapBuffers(); // This is used instead of flush because of the animation
@@ -40,7 +42,7 @@ void timer(int){
     glutPostRedisplay();
     glutTimerFunc(1000/30, timer, 0);
     x-=0.01;
-    angle+=1;
+    angle+=0.5;
 }
 
 int main(int argc, char** argv){
