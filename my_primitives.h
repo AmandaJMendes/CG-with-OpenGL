@@ -63,3 +63,85 @@ void cuboid(float length, float height, float width){
     rectangle(width, height);
     glPopMatrix();
 }
+
+void triangle(float base, float height){
+    glBegin(GL_TRIANGLES);
+    glVertex3f(0.0f, height/2, 0.0f);
+    glVertex3f(-base/2, -height/2, 0.0f);
+    glVertex3f(base/2, -height/2, 0.0f);
+    glEnd();
+}
+
+void triangular_prism(float base, float height, float depth){
+    glPushMatrix();
+    glTranslatef(0, 0, depth/2);
+    triangle(base, height);
+    glTranslatef(0, 0, -depth);
+    triangle(base, height);
+    glPopMatrix();
+
+    glBegin(GL_QUADS);
+    glVertex3f(0.0f, height/2, depth/2);
+    glVertex3f(0.0f, height/2, -depth/2);
+    glVertex3f(base/2, -height/2, -depth/2);
+    glVertex3f(base/2, -height/2, depth/2);
+
+    glVertex3f(0.0f, height/2, depth/2);
+    glVertex3f(0.0f, height/2, -depth/2);
+    glVertex3f(-base/2, -height/2, -depth/2);
+    glVertex3f(-base/2, -height/2, depth/2);
+
+    glVertex3f(base/2, -height/2, depth/2);
+    glVertex3f(base/2, -height/2, -depth/2);
+    glVertex3f(-base/2, -height/2, -depth/2);
+    glVertex3f(-base/2, -height/2, depth/2);
+    glEnd();
+}
+
+void hexagon(float radius){
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 6; ++i){
+        glVertex3f(radius * cosf(i * M_PI / 3), radius * sinf(i * M_PI / 3), 0.0f);
+    }
+    glEnd();
+}
+
+void hexagonal_prism(float radius, float height){
+    glPushMatrix();
+    glTranslatef(0, 0, height/2);
+    hexagon(radius);
+    glTranslatef(0, 0, -height);
+    hexagon(radius);
+    glPopMatrix();
+
+    glBegin(GL_QUAD_STRIP);
+    for (int i = 0; i <= 6; ++i){
+        glVertex3f(radius * cosf(i * M_PI / 3), radius * sinf(i * M_PI / 3), height/2);
+        glVertex3f(radius * cosf(i * M_PI / 3), radius * sinf(i * M_PI / 3), -height/2);
+    }
+    glEnd();
+}
+
+void custom_hexagonal_prism(float *edges, float height){
+    glPushMatrix();
+    glTranslatef(0, 0, height/2);
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 6; ++i){
+        glVertex3f(edges[i] * cosf(i * M_PI / 3), edges[i] * sinf(i * M_PI / 3), 0.0f);
+    }
+    glEnd();
+    glTranslatef(0, 0, -height);
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 6; ++i){
+        glVertex3f(edges[i] * cosf(i * M_PI / 3), edges[i] * sinf(i * M_PI / 3), 0.0f);
+    }
+    glEnd();
+    glPopMatrix();
+
+    glBegin(GL_QUAD_STRIP);
+    for (int i = 0; i <= 6; ++i){
+        glVertex3f(edges[i % 6] * cosf(i * M_PI / 3), edges[i % 6] * sinf(i * M_PI / 3), height/2);
+        glVertex3f(edges[i % 6] * cosf(i * M_PI / 3), edges[i % 6] * sinf(i * M_PI / 3), -height/2);
+    }
+    glEnd();
+}
