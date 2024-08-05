@@ -2,6 +2,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -17,18 +18,20 @@ void translate(float x, float y, float z){
 void rotatex(float theta){
     // Apply matrix for rotation around the x-axis
     // theta: angle (in degrees) to rotate
+    // Each row in the matrix is a column
     theta *= M_PI/180.0;
-    GLfloat matrix[16] = {1, 0,          0,           0,
+    GLfloat matrix[16] = {1, 0,       0,            0, 
                       0, cosf(theta), -sinf(theta), 0,
                       0, sinf(theta), cosf(theta),  0,
-                      0, 0,          0,           1};
+                      0, 0,           0,            1};
 
     glMultMatrixf(matrix);
 }
 
 void rotatey(float theta){
-    // Apply matrix for rotation around the x-axis
+    // Apply matrix for rotation around the y-axis
     // theta: angle (in degrees) to rotate
+    // Each row in the matrix is a column
     theta *= M_PI/180.0;
     GLfloat matrix[16] = {cosf(theta), 0, -sinf(theta), 0,
                           0,           1, 0,            0,
@@ -38,8 +41,9 @@ void rotatey(float theta){
 }
 
 void rotatez(float theta){
-    // Apply matrix for rotation around the x-axis
+    // Apply matrix for rotation around the z-axis
     // theta: angle (in degrees) to rotate
+    // Each row in the matrix is a column
     theta *= M_PI/180.0;
     GLfloat matrix[16] = {cosf(theta),  sinf(theta), 0, 0,
                           -sinf(theta), cosf(theta), 0, 0,
@@ -50,6 +54,7 @@ void rotatez(float theta){
 
 void scale(float x, float y, float z){
     // Apply scaling matrix
+    // Each row in the matrix is a column
     GLfloat matrix[16] = {x, 0, 0, 0,
                           0, y, 0, 0,
                           0, 0, z, 0,
@@ -60,7 +65,6 @@ void scale(float x, float y, float z){
 void orthogonal(float left, float right, float bottom, float top, float znear, float zfar){
     /* 
     Apply matrix for orthogonal projection
-
     - The viewport's default range is -1 to 1 on every axis.
     - We need to rescale the coordinates so that the limits of the projection fit within this range,
     - The camera is at the origin, facing the negative z-axis.
@@ -88,6 +92,7 @@ void perspective(float left, float right, float bottom, float top, float znear, 
     - We need to rescale the coordinates so that the limits of the projection fit within this range.
     - The camera is at the origin, facing the negative z-axis.
     - Matrix exaplanation: https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/building-basic-perspective-projection-matrix.html
+    - Each row in the matrix is a column
     */ 
     float scale_x  =  2.0f*znear/(right - left);
     float scale_y  =  2.0f*znear/(top - bottom);
@@ -104,30 +109,34 @@ void perspective(float left, float right, float bottom, float top, float znear, 
     glMultMatrixf(matrix);   
 }
 
-pair<vector<int>, vector<int>> DDA(int x1, int y1, int z1, int x2, int y2, int z2){
+void DDA(int x1, int y1, int z1, int x2, int y2, int z2){
     /*
     DDA rasterization algorithm 
-
     - This was based on Bicho's example
     - The z-axis is not considered
-    - Does it make sense to limit the coordinates to integers (as in Bicho's example)?
-      OpenGL still needs to map those points to pixels and connect them with lines,
-      likely using its own rasterization algorithm.
     */
-    int length = abs(x1-x2)>=abs(y1-y2) ? abs(x1-x2) : abs(y1-y2);
+    // Determine the number of steps needed
+    int length = std::max({abs(x1-x2), abs(y1-y2), abs(z1-z2)});
+    //int length = abs(x1-x2)>=abs(y1-y2) ? abs(x1-x2) : abs(y1-y2);
     float delta_x = static_cast<float>(x2-x1)/length;
     float delta_y = static_cast<float>(y2-y1)/length;
+    float delta_z = static_cast<float>(z2-z1)/length;
+
     float x = static_cast<float>(x1);
     float y = static_cast<float>(y1);
-    vector<int> xs(length+1);
-    vector<int> ys(length+1);
+    float z = static_cast<float>(z1);
+
+    // Draw the points
+    //glPointSize(5);
+    glBegin(GL_LINE_STRIP);
     for (int i=0; i<=length; i++){
-        xs[i] = round(x);
-        ys[i] = round(y);
+        glVertex3f(round(x), round(y), round(z));
+        cout << "(" << round(x) << ", " << round(y) << ", " << round(z) << ")\n";
         x += delta_x;
         y += delta_y;
+        z += delta_z;
     }
-    return {xs, ys};
+    glEnd();
 }
 
 pair<vector<int>, vector<int>> bresenham(int x1, int y1, int z1, int x2, int y2, int z2){
