@@ -98,6 +98,44 @@ void triangular_prism(float base, float height, float depth){
     glEnd();
 }
 
+void right_angle_triangle(float base, float height){
+    glBegin(GL_TRIANGLES);
+    glVertex3f(0.0f, 0.0f, 0.0f);         
+    glVertex3f(base, 0.0f, 0.0f);         
+    glVertex3f(0.0f, height, 0.0f);        
+    glEnd();
+}
+
+
+void right_angle_triangular_prism(float base, float height, float depth){
+    glPushMatrix();
+    
+    glTranslatef(0, 0, depth/2);
+    right_angle_triangle(base, height);
+    
+    glTranslatef(0, 0, -depth);
+    right_angle_triangle(base, height);
+    glPopMatrix();
+
+    glBegin(GL_QUADS);
+
+    glVertex3f(0.0f, 0.0f, depth/2);
+    glVertex3f(base, 0.0f, depth/2);
+    glVertex3f(base, 0.0f, -depth/2);
+    glVertex3f(0.0f, 0.0f, -depth/2);
+
+    glVertex3f(0.0f, 0.0f, depth/2);
+    glVertex3f(0.0f, height, depth/2);
+    glVertex3f(0.0f, height, -depth/2);
+    glVertex3f(0.0f, 0.0f, -depth/2);
+
+    glVertex3f(0.0f, height, depth/2);
+    glVertex3f(base, 0.0f, depth/2);
+    glVertex3f(base, 0.0f, -depth/2);
+    glVertex3f(0.0f, height, -depth/2);
+    glEnd();
+}
+
 void hexagon(float radius){
     glBegin(GL_POLYGON);
     for (int i = 0; i < 6; ++i){
@@ -142,6 +180,37 @@ void custom_hexagonal_prism(float *edges, float height){
     for (int i = 0; i <= 6; ++i){
         glVertex3f(edges[i % 6] * cosf(i * M_PI / 3), edges[i % 6] * sinf(i * M_PI / 3), height/2);
         glVertex3f(edges[i % 6] * cosf(i * M_PI / 3), edges[i % 6] * sinf(i * M_PI / 3), -height/2);
+    }
+    glEnd();
+}
+
+void drawFace(float vertices[][3], int numVertices) {
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < numVertices; ++i) {
+        glVertex3f(vertices[i][0], vertices[i][1], vertices[i][2]);
+    }
+    glEnd();
+}
+
+void drawTruncatedTriangularPrism(float topVertices[][3], float bottomVertices[][3], float height) {
+    // Desenha a face superior
+    glPushMatrix();
+    glTranslatef(0, 0, height / 2);
+    drawFace(topVertices, 6);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0, 0, -height / 2);
+    drawFace(bottomVertices, 6);
+    glPopMatrix();
+
+    glBegin(GL_QUADS);
+    for (int i = 0; i < 6; ++i) {
+        int next = (i + 1) % 6;
+        glVertex3f(bottomVertices[i][0], bottomVertices[i][1], -height / 2);
+        glVertex3f(topVertices[i][0], topVertices[i][1], height / 2);
+        glVertex3f(topVertices[next][0], topVertices[next][1], height / 2);
+        glVertex3f(bottomVertices[next][0], bottomVertices[next][1], -height / 2);
     }
     glEnd();
 }
