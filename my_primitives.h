@@ -193,7 +193,6 @@ void drawFace(float vertices[][3], int numVertices) {
 }
 
 void drawTruncatedTriangularPrism(float topVertices[][3], float bottomVertices[][3], float height) {
-    // Desenha a face superior
     glPushMatrix();
     glTranslatef(0, 0, height / 2);
     drawFace(topVertices, 6);
