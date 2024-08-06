@@ -77,7 +77,7 @@ int main(int argc, char** argv){
     glEnable(GL_LIGHTING);   
     glEnable(GL_LIGHT0);     
     glShadeModel(GL_SMOOTH); // Gouraud shading. This smooth shading is already the dafault. 
-    GLfloat light_position[] = { 1.0f, 1.0f, 1.0f, 0.0f }; 
+    GLfloat light_position[] = { 2.0f, 2.0f, 2.0f, 0.0f }; 
     GLfloat light_ambient [] = { 0.0f, 0.0f, 0.0f, 1.0f }; 
     GLfloat light_diffuse [] = { 1.0f, 1.0f, 1.0f, 1.0f };  
     GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; 

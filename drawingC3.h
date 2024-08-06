@@ -22,7 +22,7 @@ void drawC3() {
     //2 oficial
     glPushMatrix();
     translate(0.0f, 0.0f, 0.0f);
-    rotatex(90);
+    rotatex(-90);
     rotatez(-90);
     drawTruncatedTriangularPrism(topVertices, bottomVertices, 2);
     glPopMatrix();
@@ -37,19 +37,19 @@ void drawC3() {
 
     //4
     glPushMatrix();
-    translate(2.15f, 0.25f, 0.0f);
+    translate(2.15f, 0.0f, 0.0f);
     cuboid(2.0f, 2.5f, 2.0f);
     glPopMatrix();
 
     //5
     glPushMatrix();
-    translate(4.15f, 0.25f, 0.0f);
+    translate(4.15f, 0.0f, 0.0f);
     cuboid(2.0f, 2.5f, 6.0f);
     glPopMatrix();
 
     //6
     glPushMatrix();
-    translate(3.15f, 0.25f, -3.0f);
+    translate(3.15f, 0.0f, -3.0f);
     rotatex(-90);
     rotatez(-90);
     right_angle_triangular_prism(1.0f, 2.0f, 2.5f);
@@ -57,7 +57,7 @@ void drawC3() {
 
     //7
     glPushMatrix();
-    translate(3.15f, 0.25f, 3.0f);
+    translate(3.15f, 0.0f, 3.0f);
     rotatex(90);
     rotatez(-90);
     right_angle_triangular_prism(1.0f, 2.0f, 2.5f);
@@ -66,7 +66,7 @@ void drawC3() {
     //8 
     glPushMatrix();
     rotatey(26.57f);
-    translate(2.15f, 0.25f, 6.1f);
+    translate(2.15f, 0.0f, 6.1f);
     //rotatey(26.57);
     cuboid(2.24f, 2.5f, 2.24f);
     glPopMatrix();
@@ -74,35 +74,35 @@ void drawC3() {
     //9
     glPushMatrix();
     rotatey(-26.57f);
-    translate(2.15f, 0.25f, -6.1f);
+    translate(2.15f, 0.0f, -6.1f);
     cuboid(2.24f, 2.5f, 2.24f);
     glPopMatrix();
 
      //10
     glPushMatrix();
     rotatey(26.57f);
-    translate(2.63f, 0.25f, 7.9f);
+    translate(2.63f, 0.0f, 7.7f);
     //rotatey(26.57);
-    cuboid(1.3f, 2.0f, 1.5f);
+    cuboid(1.3f, 2.0f, 1.0f);
     glPopMatrix();
 
     //11
     glPushMatrix();
     rotatey(-26.57f);
-    translate(2.63f, 0.25f, -7.9f);
-    cuboid(1.3f, 2.0f, 1.5f);
+    translate(2.63f, 0.0f, -7.7f);
+    cuboid(1.3f, 2.0f, 1.0f);
     glPopMatrix();
 
     //1
     glPushMatrix();
-    translate(-0.7f, 0.25f, 1.6f);
+    translate(-0.7f, 0.0f, 1.6f);
     rotatey(-27.0f);
     cuboid(2.0f, 2.5f, 2.0f);
     glPopMatrix();
 
     //3
     glPushMatrix();
-    translate(-0.7f, 0.25f, -1.6f);
+    translate(-0.7f, 0.0f, -1.6f);
     rotatey(27.0f);
     cuboid(2.0f, 2.5f, 2.0f);
     glPopMatrix();
