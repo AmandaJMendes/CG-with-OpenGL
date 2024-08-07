@@ -41,6 +41,12 @@ void drawC3() {
     cuboid(2.0f, 2.5f, 2.0f);
     glPopMatrix();
 
+    //testee
+    // glPushMatrix();
+    // translate(1.0f, 0.0f, 4.0f);
+    // draw_right_angle_triangle_prism2(1.0f, 2.0f, 2.5f);
+    // glPopMatrix();
+
     //5
     glPushMatrix();
     translate(4.15f, 0.0f, 0.0f);
@@ -49,18 +55,16 @@ void drawC3() {
 
     //6
     glPushMatrix();
-    translate(3.15f, 0.0f, -3.0f);
-    rotatex(-90);
-    rotatez(-90);
-    right_angle_triangular_prism(1.0f, 2.0f, 2.5f);
+    translate(3.15f, -1.2f, -3.0f);
+    rotatey(90);
+    draw_right_angle_triangle_prism(1.0f, 2.0f, 2.5f);
     glPopMatrix();
 
     //7
     glPushMatrix();
-    translate(3.15f, 0.0f, 3.0f);
-    rotatex(90);
-    rotatez(-90);
-    right_angle_triangular_prism(1.0f, 2.0f, 2.5f);
+    translate(3.15f, -1.2f, 4.0f);
+    rotatey(90);
+    draw_right_angle_triangle_prism2(1.0f, 2.0f, 2.5f);
     glPopMatrix();
 
     //8 
