@@ -1,7 +1,6 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <math.h>
-
 /*
 The following functions were developed for experimentation with OpenGL
 They may be useful for our final design, but they require some revision
@@ -98,41 +97,88 @@ void triangular_prism(float base, float height, float depth){
     glEnd();
 }
 
-void right_angle_triangle(float base, float height){
+void calculateNormal(float v0[3], float v1[3], float v2[3], float normal[3]) {
+    float vector1[3], vector2[3];
+
+    vector1[0] = v1[0] - v0[0];
+    vector1[1] = v1[1] - v0[1];
+    vector1[2] = v1[2] - v0[2];
+
+    vector2[0] = v2[0] - v0[0];
+    vector2[1] = v2[1] - v0[1];
+    vector2[2] = v2[2] - v0[2];
+
+    normal[0] = vector1[1] * vector2[2] - vector1[2] * vector2[1];
+    normal[1] = vector1[2] * vector2[0] - vector1[0] * vector2[2];
+    normal[2] = vector1[0] * vector2[1] - vector1[1] * vector2[0];
+
+    float length = sqrt(normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2]);
+    normal[0] /= length;
+    normal[1] /= length;
+    normal[2] /= length;
+}
+
+void right_angle_triangle(float base, float height) {
+    float v0[3] = {0.0f, 0.0f, 0.0f};
+    float v1[3] = {base, 0.0f, 0.0f};
+    float v2[3] = {0.0f, height, 0.0f};
+    float normal[3];
+
+    calculateNormal(v0, v1, v2, normal);
+
     glBegin(GL_TRIANGLES);
-    glVertex3f(0.0f, 0.0f, 0.0f);         
-    glVertex3f(base, 0.0f, 0.0f);         
-    glVertex3f(0.0f, height, 0.0f);        
+    glNormal3fv(normal);
+    glVertex3fv(v0);
+    glVertex3fv(v1);
+    glVertex3fv(v2);
     glEnd();
 }
 
 
-void right_angle_triangular_prism(float base, float height, float depth){
+void right_angle_triangular_prism(float base, float height, float depth) {
     glPushMatrix();
-    
-    glTranslatef(0, 0, depth/2);
+
+    glTranslatef(0, 0, depth / 2);
     right_angle_triangle(base, height);
-    
+
     glTranslatef(0, 0, -depth);
     right_angle_triangle(base, height);
     glPopMatrix();
 
     glBegin(GL_QUADS);
+    float v0[3], v1[3], v2[3], normal[3];
+    
+    // Front face
+    v0[0] = 0.0f; v0[1] = 0.0f; v0[2] = depth / 2;
+    v1[0] = base; v1[1] = 0.0f; v1[2] = depth / 2;
+    v2[0] = base; v2[1] = 0.0f; v2[2] = -depth / 2;
+    calculateNormal(v0, v1, v2, normal);
+    glNormal3fv(normal);
+    glVertex3fv(v0);
+    glVertex3fv(v1);
+    glVertex3fv(v2);
+    glVertex3f(0.0f, 0.0f, -depth / 2);
+    
+    v0[0] = 0.0f; v0[1] = 0.0f; v0[2] = depth / 2;
+    v1[0] = 0.0f; v1[1] = height; v1[2] = depth / 2;
+    v2[0] = 0.0f; v2[1] = height; v2[2] = -depth / 2;
+    calculateNormal(v0, v1, v2, normal);
+    glNormal3fv(normal);
+    glVertex3fv(v0);
+    glVertex3fv(v1);
+    glVertex3fv(v2);
+    glVertex3f(0.0f, 0.0f, -depth / 2);
 
-    glVertex3f(0.0f, 0.0f, depth/2);
-    glVertex3f(base, 0.0f, depth/2);
-    glVertex3f(base, 0.0f, -depth/2);
-    glVertex3f(0.0f, 0.0f, -depth/2);
+    v0[0] = 0.0f; v0[1] = height; v0[2] = depth / 2;
+    v1[0] = base; v1[1] = 0.0f; v1[2] = depth / 2;
+    v2[0] = base; v2[1] = 0.0f; v2[2] = -depth / 2;
+    calculateNormal(v0, v1, v2, normal);
+    glNormal3fv(normal);
+    glVertex3fv(v0);
+    glVertex3fv(v1);
+    glVertex3fv(v2);
+    glVertex3f(0.0f, height, -depth / 2);
 
-    glVertex3f(0.0f, 0.0f, depth/2);
-    glVertex3f(0.0f, height, depth/2);
-    glVertex3f(0.0f, height, -depth/2);
-    glVertex3f(0.0f, 0.0f, -depth/2);
-
-    glVertex3f(0.0f, height, depth/2);
-    glVertex3f(base, 0.0f, depth/2);
-    glVertex3f(base, 0.0f, -depth/2);
-    glVertex3f(0.0f, height, -depth/2);
     glEnd();
 }
 
@@ -185,7 +231,16 @@ void custom_hexagonal_prism(float *edges, float height){
 }
 
 void drawFace(float vertices[][3], int numVertices) {
+    if (numVertices < 3) return; 
+
+    float normal[3];
+    float v0[3] = {vertices[0][0], vertices[0][1], vertices[0][2]};
+    float v1[3] = {vertices[1][0], vertices[1][1], vertices[1][2]};
+    float v2[3] = {vertices[2][0], vertices[2][1], vertices[2][2]};
+    calculateNormal(v0, v1, v2, normal);
+
     glBegin(GL_POLYGON);
+    glNormal3f(normal[0], normal[1], normal[2]);
     for (int i = 0; i < numVertices; ++i) {
         glVertex3f(vertices[i][0], vertices[i][1], vertices[i][2]);
     }
@@ -206,6 +261,16 @@ void drawTruncatedTriangularPrism(float topVertices[][3], float bottomVertices[]
     glBegin(GL_QUADS);
     for (int i = 0; i < 6; ++i) {
         int next = (i + 1) % 6;
+        float v0[3] = {bottomVertices[i][0], bottomVertices[i][1], -height / 2};
+        float v1[3] = {topVertices[i][0], topVertices[i][1], height / 2};
+        float v2[3] = {topVertices[next][0], topVertices[next][1], height / 2};
+        float v3[3] = {bottomVertices[next][0], bottomVertices[next][1], -height / 2};
+
+        float normal[3];
+        calculateNormal(v0, v1, v2, normal);
+
+        glNormal3f(normal[0], normal[1], normal[2]);
+
         glVertex3f(bottomVertices[i][0], bottomVertices[i][1], -height / 2);
         glVertex3f(topVertices[i][0], topVertices[i][1], height / 2);
         glVertex3f(topVertices[next][0], topVertices[next][1], height / 2);
@@ -213,3 +278,4 @@ void drawTruncatedTriangularPrism(float topVertices[][3], float bottomVertices[]
     }
     glEnd();
 }
+
