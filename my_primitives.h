@@ -106,7 +106,6 @@ void right_angle_triangle(float base, float height){
     glEnd();
 }
 
-
 void right_angle_triangular_prism(float base, float height, float depth){
     glPushMatrix();
     
@@ -135,6 +134,108 @@ void right_angle_triangular_prism(float base, float height, float depth){
     glVertex3f(0.0f, height, -depth/2);
     glEnd();
 }
+
+void right_angle_triangle2(float base, float height){
+    glBegin(GL_TRIANGLES);
+    glVertex3f(0.0f, 0.0f, 0.0f);         
+    glVertex3f(base, 0.0f, 0.0f);         
+    glVertex3f(0.0f, 0.0f, height);        
+    glEnd();
+}
+
+void right_angle_triangle3(float base, float height){
+    glBegin(GL_TRIANGLES);
+    glVertex3f(base, 0.0f, 0.0f); 
+    glVertex3f(0.0f, 0.0f, 0.0f);                 
+    glVertex3f(base, 0.0f, height);        
+    glEnd();
+}
+
+void draw_right_angle_triangle_prism2(float base, float height, float prism_height) {
+    // Desenha a base do prisma (triângulo na base)
+    glBegin(GL_TRIANGLES);
+    glVertex3f(base, 0.0f, 0.0f); 
+    glVertex3f(0.0f, 0.0f, 0.0f);                 
+    glVertex3f(base, 0.0f, height);        
+    glEnd();
+    
+    // Desenha o topo do prisma (triângulo na altura do prisma)
+    glBegin(GL_TRIANGLES);
+    glVertex3f(base, prism_height, 0.0f); 
+    glVertex3f(0.0f, prism_height, 0.0f);                 
+    glVertex3f(base, prism_height, height);        
+    glEnd();
+    
+    // Desenha as faces laterais do prisma
+    glBegin(GL_QUADS);
+    
+    // Face lateral 1
+    glVertex3f(base, 0.0f, 0.0f);
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(0.0f, prism_height, 0.0f);
+    glVertex3f(base, prism_height, 0.0f);
+
+    // Face lateral 2
+    glVertex3f(base, 0.0f, 0.0f);
+    glVertex3f(base, 0.0f, height);
+    glVertex3f(base, prism_height, height);
+    glVertex3f(base, prism_height, 0.0f);
+
+    // Face lateral 3 foco
+    glVertex3f(0.0f, 0.0f, 0.0f);
+    glVertex3f(base, 0.0f, height);
+    glVertex3f(base, prism_height, height);
+    glVertex3f(0.0f, prism_height, 0.0f);
+
+    // Face lateral 4
+    // glVertex3f(base, 0.0f, height);
+    // glVertex3f(0.0f, 0.0f, height);
+    // glVertex3f(0.0f, prism_height, height);
+    // glVertex3f(base, prism_height, height);
+    
+    glEnd();
+}
+
+
+
+
+void draw_right_angle_triangle_prism(float base, float height, float depth) {
+
+    glPushMatrix();
+    
+    glTranslatef(0, 0, 0);
+    right_angle_triangle2(base, height);
+    
+    glTranslatef(0, depth, 0);
+    right_angle_triangle2(base, height);
+    glPopMatrix();
+    
+    // Desenha as faces laterais
+    // Face lateral 1
+    glBegin(GL_QUADS);
+    glVertex3f(0.0f, 0.0f, 0.0f);         
+    glVertex3f(base, 0.0f, 0.0f);         
+    glVertex3f(base, depth, 0.0f);         
+    glVertex3f(0.0f, depth, 0.0f);        
+
+    // glVertex3f(0.0f, 0.0f, height);        
+    // glVertex3f(base/2, 0.0f, height);        
+    // glVertex3f(base/2, depth, height);        
+    // glVertex3f(0.0f, depth, height);        
+    
+    glVertex3f(0.0f, 0.0f, 0.0f);         
+    glVertex3f(0.0f, 0.0f, height);        
+    glVertex3f(0.0f, depth, height);        
+    glVertex3f(0.0f, depth, 0.0f);        
+    
+    glVertex3f(base, 0.0f, 0.0f);         
+    glVertex3f(0, 0.0f, height);        
+    glVertex3f(0, depth, height);        
+    glVertex3f(base, depth, 0.0f);        
+    glEnd();
+}
+
+
 
 void hexagon(float radius){
     glBegin(GL_POLYGON);
