@@ -108,3 +108,36 @@ void drawC3() {
     glPopMatrix();
     
 }
+
+void drawBase() {
+    glLineWidth(2.0f); 
+    
+    // Draw with DDA
+    glColor3f(1, 0, 0);
+    DDA( 0,  0, -8,  8,  0, -2);
+    DDA( 8,  0, -2,  8, 0, 2);
+    DDA( 8,  0, 2,  0, 0, 8);
+    DDA( 0,  0, 8, -8, 0, 2);
+    DDA(-8,  0, 2, -8,  0, -2);
+    DDA(-8,  0, -2,  0,  0, -8);
+    
+    // Draw with Bresenham
+    // bresenham( 0,  8, -4,  8,  2, -4);
+    // bresenham( 8,  2, -4,  8, -2, -4);
+    // bresenham( 8, -2, -4,  0, -8, -4);
+    // bresenham( 0, -8, -4, -8, -2, -4);
+    // bresenham(-8, -2, -4, -8,  2, -4);
+    // bresenham(-8,  2, -4,  0,  8, -4);
+
+    // Draw with native OpenGL lines
+    glColor3f(0, 1, 0);
+    glBegin(GL_LINE_STRIP);
+    glVertex3f( 0,  0, -8);
+    glVertex3f( 8,  0, -2);
+    glVertex3f( 8,  0,  2);
+    glVertex3f( 0,  0,  8);
+    glVertex3f(-8,  0,  2);
+    glVertex3f(-8,  0, -2);
+    glVertex3f( 0,  0, -8);
+    glEnd();
+}

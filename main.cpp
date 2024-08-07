@@ -13,20 +13,16 @@ float angle=0.0f;
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //GL_DEPTH_BUFFER_BIT: Visibility algorithm (z-buffer)
     glLoadIdentity();
-    translate(0, -0.5,-4);
-    rotatex(-90);
+    translate(0, 0,-4);
+    rotatex(-60);
     rotatey(angle);
-    //scale(5, 20, 20);
-    //glutSolidCube(0.2);
-
-    //elipse(0.5, 0.5, 2*M_PI);
-    //cylinder(1, 2);
-    //glutSolidCube(2);
     drawC3();
+
     glLoadIdentity();
-    DDA(-5, -5, -4, 5, -5, -4);
-    DDA(-5,  5, -4, 5,  5, -4);
-    //island();
+    translate(0, -2,-4);
+    rotatex(-60);
+    drawBase();
+
 
     glutSwapBuffers(); // This is used instead of flush because of the animation
 }
@@ -35,9 +31,9 @@ void reshape(int w, int h){
     glViewport(0, 0, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    orthogonal(-10, 10, -10, 10, 0, 5);
+    orthogonal(-10, 10, -10, 10, 0, 10);
     //glOrtho(-10, 10, -10, 10, 1, 10);
-    //perspective(-10, 10, -10, 10, 0, 10);
+    //perspective(-5, 5, -5, 5, 0.5, 5);
     //perspective(-2, 2, -2, 2, 0.5, 10);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

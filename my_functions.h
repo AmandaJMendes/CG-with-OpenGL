@@ -113,11 +113,9 @@ void DDA(int x1, int y1, int z1, int x2, int y2, int z2){
     /*
     DDA rasterization algorithm 
     - This was based on Bicho's example
-    - The z-axis is not considered
     */
-    // Determine the number of steps needed
     int length = std::max({abs(x1-x2), abs(y1-y2), abs(z1-z2)});
-    //int length = abs(x1-x2)>=abs(y1-y2) ? abs(x1-x2) : abs(y1-y2);
+
     float delta_x = static_cast<float>(x2-x1)/length;
     float delta_y = static_cast<float>(y2-y1)/length;
     float delta_z = static_cast<float>(z2-z1)/length;
@@ -126,12 +124,9 @@ void DDA(int x1, int y1, int z1, int x2, int y2, int z2){
     float y = static_cast<float>(y1);
     float z = static_cast<float>(z1);
 
-    // Draw the points
-    //glPointSize(5);
     glBegin(GL_LINE_STRIP);
     for (int i=0; i<=length; i++){
         glVertex3f(round(x), round(y), round(z));
-        cout << "(" << round(x) << ", " << round(y) << ", " << round(z) << ")\n";
         x += delta_x;
         y += delta_y;
         z += delta_z;
