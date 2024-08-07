@@ -122,12 +122,12 @@ void drawBase() {
     DDA(-8,  0, -2,  0,  0, -8);
     
     // Draw with Bresenham
-    // bresenham( 0,  8, -4,  8,  2, -4);
-    // bresenham( 8,  2, -4,  8, -2, -4);
-    // bresenham( 8, -2, -4,  0, -8, -4);
-    // bresenham( 0, -8, -4, -8, -2, -4);
-    // bresenham(-8, -2, -4, -8,  2, -4);
-    // bresenham(-8,  2, -4,  0,  8, -4);
+    bresenham( 0,  0, -8,  8,  0, -2);
+    bresenham( 8,  0, -2,  8, 0, 2);
+    bresenham( 8,  0, 2,  0, 0, 8);
+    bresenham( 0,  0, 8, -8, 0, 2);
+    bresenham(-8,  0, 2, -8,  0, -2);
+    bresenham(-8,  0, -2,  0,  0, -8);
 
     // Draw with native OpenGL lines
     glColor3f(0, 1, 0);

@@ -134,7 +134,7 @@ void DDA(int x1, int y1, int z1, int x2, int y2, int z2){
     glEnd();
 }
 
-pair<vector<int>, vector<int>> bresenham(int x1, int y1, int z1, int x2, int y2, int z2){
+void bresenham(float x1, float y1, float z1, float x2, float y2, float z2){
     /*
     Bresenhan rasterization algorithm 
 
@@ -144,19 +144,80 @@ pair<vector<int>, vector<int>> bresenham(int x1, int y1, int z1, int x2, int y2,
     */
     int delta_x = x2-x1;
     int delta_y = y2-y1;
-    float m = static_cast<float>(delta_y)/delta_x;
-    float e = m-0.5;
-    vector<int> xs(delta_x+1);
-    vector<int> ys(delta_x+1);
-    for (int i=0; i<=delta_x; i++){
-        xs[i] = x1;
-        ys[i] = y1;
-        while(e>0){
-            y1 += 1;
-            e  -= 1;
-        }
-        x1 += 1;
-        e  += m;
+    int delta_z = z2-z1;
+
+    float m1, m2, base_delta;
+    char highest_delta;
+    
+    // X has the highest delta. It is our bresenham base
+    if(abs(delta_x) > abs(delta_y) && abs(delta_x) > abs(delta_z)){
+        m1 = static_cast<float>(abs(delta_y))/abs(delta_x);
+        m2 = static_cast<float>(abs(delta_z))/abs(delta_x);
+        base_delta = abs(delta_x);
+        highest_delta = 'x';
+    
+    // Y has the highest delta. It is our bresenham base
+    } else if(abs(delta_y) > abs(delta_z)) {
+        m1 = static_cast<float>(abs(delta_x))/abs(delta_y);
+        m2 = static_cast<float>(abs(delta_z))/abs(delta_y);
+        base_delta = abs(delta_y);
+        highest_delta = 'y';
+    
+    // Z has the highest delta. It is our bresenham base
+    } else {
+        m1 = static_cast<float>(abs(delta_x))/abs(delta_z);
+        m2 = static_cast<float>(abs(delta_y))/abs(delta_z);
+        base_delta = abs(delta_z);
+        highest_delta = 'z';
     }
-    return {xs, ys};
+
+    float inc_x = (delta_x > 0) ? 0.1 : (delta_x < 0) ? -0.1 : 0;
+    float inc_y = (delta_y > 0) ? 0.1 : (delta_y < 0) ? -0.1 : 0;
+    float inc_z = (delta_z > 0) ? 0.1 : (delta_z < 0) ? -0.1 : 0;
+    float e1 = m1-0.5;
+    float e2 = m2-0.5;
+        
+    glBegin(GL_LINE_STRIP);
+    for (int i=0; i<=base_delta*10; i++){
+        glVertex3f(x1, y1, z1);
+        switch (highest_delta) {
+            case 'x':
+                while(e1>0){
+                    y1 += inc_y;
+                    e1  -= 1;
+                }
+                while(e2>0){
+                    z1 += inc_z;
+                    e2  -= 1;
+                }
+                x1 += inc_x;
+            break;
+            case 'y':
+                while(e1>0){
+                    x1 += inc_x;
+                    e1  -= 1;
+                }
+                while(e2>0){
+                    z1 += inc_z;
+                    e2  -= 1;
+                }
+                y1 += inc_y;
+            break;
+            case 'z':
+                while(e1>0){
+                    x1 += inc_x;
+                    e1  -= 1;
+                }
+                while(e2>0){
+                    y1 += inc_y;
+                    e2  -= 1;
+                }
+                z1 += inc_z;
+            break;
+        }
+        
+        e1 += m1;
+        e2 += m2;
+    }
+    glEnd();
 }
